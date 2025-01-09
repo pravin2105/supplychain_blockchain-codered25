@@ -1,0 +1,79 @@
+/* Supplier Dashboard Container */
+.supplier-dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Header */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #007bff;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.profile-menu a {
+  margin-left: 20px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.profile-menu a:hover {
+  text-decoration: underline;
+}
+
+/* Content Wrapper */
+.dashboard-content-wrapper {
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.dashboard-sidebar {
+  width: 200px; /* Further reduced the sidebar width */
+  background-color: #f8f9fa;
+  border-right: 1px solid #ddd;
+  padding: 15px; /* Reduced padding for a more compact look */
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.dashboard-sidebar li {
+  margin-bottom: 10px; /* Reduced margin for tighter spacing */
+}
+
+.dashboard-sidebar a {
+  color: #333;
+  text-decoration: none;
+  font-size: 1.2rem; /* Further increased font size */
+  font-weight: bold;
+}
+
+.dashboard-sidebar a:hover {
+  color: #007bff;
+}
+
+
+
+/* Main Content */
+.dashboard-main {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #f1f3f5;
+}

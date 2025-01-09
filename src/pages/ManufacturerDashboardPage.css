@@ -1,0 +1,57 @@
+/* Table container styling */
+.recent-activities table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Table headers */
+.recent-activities th {
+  padding: 12px 8px;
+  background-color: #007bff;
+  color: white;
+  text-align: left;
+  font-weight: bold;
+  border-bottom: 2px solid #ddd;
+}
+
+/* Table rows */
+.recent-activities td {
+  padding: 12px 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Alternating row background */
+.recent-activities tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Status badge alignment */
+.status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: white;
+  text-align: center;
+  width: 90px;
+}
+
+/* Completed status badge */
+.status-badge.completed {
+  background-color: #28a745;
+}
+
+/* In-progress status badge */
+.status-badge.in-progress {
+  background-color: #ffc107;
+  color: #333;
+}
+
+/* Pending status badge */
+.status-badge.pending {
+  background-color: #dc3545;
+  color: white;
+}

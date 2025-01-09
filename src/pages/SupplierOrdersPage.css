@@ -1,0 +1,107 @@
+/* Orders Table */
+.orders-table {
+  margin-top: 20px;
+}
+
+.orders-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders-table th,
+.orders-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.verify-button,
+.view-details-button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.verify-button:hover,
+.view-details-button:hover {
+  background-color: #0056b3;
+}
+
+.verified-text {
+  color: #28a745;
+  font-weight: bold;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.modal-content p {
+  margin: 10px 0;
+}
+
+.get-otp-button,
+.submit-verify-button,
+.close-modal-button {
+  padding: 8px 16px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.get-otp-button {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.submit-verify-button {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.close-modal-button {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.get-otp-button:hover {
+  background-color: #0056b3;
+}
+
+.submit-verify-button:hover {
+  background-color: #218838;
+}
+
+.close-modal-button:hover {
+  background-color: #c82333;
+}

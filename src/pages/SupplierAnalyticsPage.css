@@ -1,0 +1,45 @@
+/* Page container */
+.supplier-analytics-page {
+  padding: 20px;
+}
+
+.supplier-analytics-page h2 {
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+/* Grid layout for charts and top customers */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 columns */
+  grid-template-rows: auto auto; /* 2 rows */
+  gap: 20px;
+}
+
+/* Chart card container */
+.chart-card {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden; /* Ensure content stays within the card */
+}
+
+.chart-card h3 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+/* Chart canvas styles */
+.chart-card canvas {
+  flex-grow: 1;
+  width: 100% !important; /* Force canvas to fill the width */
+  height: 100% !important; /* Force canvas to fill the height */
+  max-height: 250px; /* Ensure canvas stays within the card height */
+}

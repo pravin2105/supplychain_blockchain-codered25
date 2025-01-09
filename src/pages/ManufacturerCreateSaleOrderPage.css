@@ -1,0 +1,130 @@
+/* Page container */
+.create-sales-orders-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* Tab buttons */
+.tab-buttons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    justify-content: flex-start;
+}
+
+.tab-buttons button {
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tab-buttons button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.tab-buttons .active-tab {
+    background-color: #0056b3;
+}
+
+/* Tab content */
+.tab-content {
+    margin-top: 20px;
+}
+
+/* Common table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 14px 16px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    font-size: 0.95rem;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Buttons in table */
+.action-buttons button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin: 0 6px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.action-buttons .add-button {
+    background-color: #28a745;
+    color: white;
+}
+
+.action-buttons .add-button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+.action-buttons .remove-button {
+    background-color: #d9534f;
+    color: white;
+}
+
+.action-buttons .remove-button:hover {
+    background-color: #c9302c;
+    transform: translateY(-2px);
+}
+
+/* Input fields */
+.quantity-input {
+    width: 70px;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    th, td {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+
+    .tab-buttons button {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+
+    .quantity-input {
+        width: 60px;
+    }
+}

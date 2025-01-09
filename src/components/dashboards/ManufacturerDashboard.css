@@ -1,0 +1,68 @@
+/* Container for the entire dashboard */
+.manufacturer-dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Header styles */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.profile-menu span {
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+/* Wrapper for sidebar and main content */
+.dashboard-content-wrapper {
+  display: flex;
+  flex: 1;
+}
+
+/* Sidebar styles */
+.dashboard-sidebar {
+  width: 250px;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+
+.dashboard-sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.dashboard-sidebar li {
+  margin-bottom: 15px;
+}
+
+.dashboard-sidebar a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+.dashboard-sidebar a:hover {
+  color: #007bff;
+}
+
+/* Main content styles */
+.dashboard-main {
+  flex: 1;
+  padding: 20px;
+  background-color: #f5f5f5;
+  overflow-y: auto;
+}
