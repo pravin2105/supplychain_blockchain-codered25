@@ -25,10 +25,10 @@
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Table Header */
-.orders-table th {
+  }
+  
+  /* Table Header */
+  .orders-table th {
     padding: 10px;
     text-align: center;
     background-color: #007bff;
@@ -37,16 +37,17 @@
     white-space: nowrap;
     border-bottom: 1px solid #ccc;
     font-size: 0.9rem;
-}
-
-/* Table Rows */
-.orders-table td {
+  }
+  
+  /* Table Rows */
+  .orders-table td {
     padding: 8px 10px;
     text-align: center;
     border-bottom: 1px solid #ddd;
     word-wrap: break-word;
     font-size: 0.85rem;
-}
+  }
+  
 
 /* Alternate Row Color */
 .orders-table tr:nth-child(even) {

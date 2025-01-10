@@ -1,14 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './SupplierMaterialsPage.css';
 
 const SupplierMaterialsPage = () => {
-  // Initial mock data for raw materials
-  const [materials, setMaterials] = useState([
-    { id: 1, name: 'Steel', type: 'Metal', quantity: 100, price: 50, image: '', description: 'High-grade steel' },
-    { id: 2, name: 'Copper', type: 'Metal', quantity: 75, price: 70, image: '', description: 'Refined copper' },
-    { id: 3, name: 'Wood', type: 'Organic', quantity: 200, price: 30, image: '', description: 'Quality timber' },
-  ]);
-
+  const [materials, setMaterials] = useState([]);
   const [newMaterial, setNewMaterial] = useState({
     name: '',
     type: '',
@@ -18,92 +12,81 @@ const SupplierMaterialsPage = () => {
     image: null,
   });
 
-  const [editMode, setEditMode] = useState(false);
-  const [editId, setEditId] = useState(null);
+  const [showForm, setShowForm] = useState(false);
 
-  // Handle form input change
+  useEffect(() => {
+    fetchMaterials();
+  }, []);
+
+  const fetchMaterials = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/materials');
+      const data = await response.json();
+      setMaterials(data);
+    } catch (error) {
+      console.error('Error fetching materials:', error);
+    }
+  };
+
   const handleInputChange = (e) => {
     setNewMaterial({ ...newMaterial, [e.target.name]: e.target.value });
   };
 
-  // Handle file input change for image upload
   const handleFileChange = (e) => {
     setNewMaterial({ ...newMaterial, image: e.target.files[0] });
   };
 
-  // Handle adding new material
-  const handleAddMaterial = (e) => {
+  const handleAddMaterial = async (e) => {
     e.preventDefault();
-
-    // Create new material object
     const materialToAdd = {
-      id: materials.length + 1,
-      name: newMaterial.name,
-      type: newMaterial.type,
+      ...newMaterial,
       quantity: parseInt(newMaterial.quantity),
       price: parseFloat(newMaterial.price),
-      description: newMaterial.description,
-      image: URL.createObjectURL(newMaterial.image),
     };
 
-    // Update state with new material
-    setMaterials([...materials, materialToAdd]);
+    try {
+      const response = await fetch('http://localhost:5000/materials', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(materialToAdd),
+      });
 
-    // Clear form inputs
-    setNewMaterial({ name: '', type: '', quantity: '', price: '', description: '', image: null });
+      if (response.ok) {
+        alert('Material added successfully');
+        fetchMaterials(); // Refresh the list after adding
+        setNewMaterial({ name: '', type: '', quantity: '', price: '', description: '', image: null });
+        setShowForm(false);
+      } else {
+        alert('Failed to add material');
+      }
+    } catch (error) {
+      console.error('Error adding material:', error);
+    }
   };
 
-  // Handle editing an existing material
-  const handleEditMaterial = (id) => {
-    const materialToEdit = materials.find((material) => material.id === id);
-    setNewMaterial({
-      name: materialToEdit.name,
-      type: materialToEdit.type,
-      quantity: materialToEdit.quantity,
-      price: materialToEdit.price,
-      description: materialToEdit.description,
-      image: materialToEdit.image,
-    });
-    setEditMode(true);
-    setEditId(id);
-  };
+  const handleDeleteMaterial = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:5000/materials/${id}`, {
+        method: 'DELETE',
+      });
 
-  // Handle saving edited material
-  const handleSaveMaterial = (e) => {
-    e.preventDefault();
-    setMaterials((prevMaterials) =>
-      prevMaterials.map((material) =>
-        material.id === editId
-          ? {
-              ...material,
-              name: newMaterial.name,
-              type: newMaterial.type,
-              quantity: parseInt(newMaterial.quantity),
-              price: parseFloat(newMaterial.price),
-              description: newMaterial.description,
-              image: newMaterial.image ? URL.createObjectURL(newMaterial.image) : material.image,
-            }
-          : material
-      )
-    );
-
-    // Clear form and exit edit mode
-    setNewMaterial({ name: '', type: '', quantity: '', price: '', description: '', image: null });
-    setEditMode(false);
-    setEditId(null);
-  };
-
-  // Handle deleting a material
-  const handleDeleteMaterial = (id) => {
-    const updatedMaterials = materials.filter((material) => material.id !== id);
-    setMaterials(updatedMaterials);
+      if (response.ok) {
+        alert('Material deleted successfully');
+        fetchMaterials(); // Refresh the list after deleting
+      } else {
+        alert('Failed to delete material');
+      }
+    } catch (error) {
+      console.error('Error deleting material:', error);
+    }
   };
 
   return (
     <div className="supplier-materials-page">
       <h2>Raw Materials Management</h2>
 
-      {/* Raw Materials Table */}
       <div className="materials-table">
         <h3>All Raw Materials</h3>
         <table>
@@ -128,13 +111,8 @@ const SupplierMaterialsPage = () => {
                 <td>{material.quantity}</td>
                 <td>${material.price}</td>
                 <td>{material.description}</td>
+                <td>{material.image ? <img src={material.image} alt={material.name} className="material-image" /> : 'N/A'}</td>
                 <td>
-                  {material.image && <img src={material.image} alt={material.name} className="material-image" />}
-                </td>
-                <td>
-                  <button className="edit-button" onClick={() => handleEditMaterial(material.id)}>
-                    Edit
-                  </button>
                   <button className="delete-button" onClick={() => handleDeleteMaterial(material.id)}>
                     Delete
                   </button>
@@ -145,59 +123,65 @@ const SupplierMaterialsPage = () => {
         </table>
       </div>
 
-      {/* Add or Edit Material Form */}
-      <div className="add-material-form">
-        <h3>{editMode ? 'Edit Raw Material' : 'Add New Raw Material'}</h3>
-        <form onSubmit={editMode ? handleSaveMaterial : handleAddMaterial}>
-          <div className="form-group">
-            <label htmlFor="name">Name:</label>
-            <input type="text" id="name" name="name" value={newMaterial.name} onChange={handleInputChange} required />
+      <button className="add-button" onClick={() => setShowForm(true)}>
+        Add New Material
+      </button>
+
+      {showForm && (
+        <div className="form-popup">
+          <div className="form-popup-content">
+            <h3>Add New Raw Material</h3>
+            <form onSubmit={handleAddMaterial}>
+              <div className="form-group">
+                <label htmlFor="name">Name:</label>
+                <input type="text" id="name" name="name" value={newMaterial.name} onChange={handleInputChange} required />
+              </div>
+              <div className="form-group">
+                <label htmlFor="type">Type:</label>
+                <input type="text" id="type" name="type" value={newMaterial.type} onChange={handleInputChange} required />
+              </div>
+              <div className="form-group">
+                <label htmlFor="quantity">Quantity:</label>
+                <input
+                  type="number"
+                  id="quantity"
+                  name="quantity"
+                  value={newMaterial.quantity}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="price">Price:</label>
+                <input
+                  type="number"
+                  id="price"
+                  name="price"
+                  value={newMaterial.price}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="description">Description:</label>
+                <textarea
+                  id="description"
+                  name="description"
+                  value={newMaterial.description}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <button type="submit" className="add-button">
+                Add Material
+              </button>
+              <button type="button" className="cancel-button" onClick={() => setShowForm(false)}>
+                Cancel
+              </button>
+            </form>
           </div>
-          <div className="form-group">
-            <label htmlFor="type">Type:</label>
-            <input type="text" id="type" name="type" value={newMaterial.type} onChange={handleInputChange} required />
-          </div>
-          <div className="form-group">
-            <label htmlFor="quantity">Quantity:</label>
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              value={newMaterial.quantity}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="price">Price:</label>
-            <input
-              type="number"
-              id="price"
-              name="price"
-              value={newMaterial.price}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="description">Description:</label>
-            <textarea
-              id="description"
-              name="description"
-              value={newMaterial.description}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="image">Image (Recommended ratio: 4:3):</label>
-            <input type="file" id="image" name="image" onChange={handleFileChange} accept="image/*" />
-          </div>
-          <button type="submit" className="add-button">
-            {editMode ? 'Save Changes' : 'Add Material'}
-          </button>
-        </form>
-      </div>
+        </div>
+      )}
     </div>
   );
 };

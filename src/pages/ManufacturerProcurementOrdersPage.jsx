@@ -3,9 +3,9 @@ import './ManufacturerProcurementOrdersPage.css';
 
 const ManufacturerProcurementOrdersPage = () => {
   const mockOrders = [
-    { id: 101, material: 'Steel', quantity: 100, supplier: 'ABC Pvt Ltd', status: 'Pending', paymentStatus: 'Pending', collected: false, orderDate: '2025-01-03', completionDate: '-' },
-    { id: 102, material: 'Copper', quantity: 75, supplier: 'XYZ Ltd', status: 'In Progress', paymentStatus: 'Completed', collected: false, orderDate: '2025-01-02', completionDate: '-' },
-    { id: 103, material: 'Aluminum', quantity: 50, supplier: 'LMN Co.', status: 'Completed', paymentStatus: 'Completed', collected: true, orderDate: '2025-01-01', completionDate: '2025-01-06' },
+    { id: 101, material: 'Steel', quantity: 100, pricePerUnit: 50, supplier: 'ABC Pvt Ltd', status: 'Pending', paymentStatus: 'Pending', collected: false, orderDate: '2025-01-03', completionDate: '-' },
+    { id: 102, material: 'Copper', quantity: 75, pricePerUnit: 80, supplier: 'XYZ Ltd', status: 'In Progress', paymentStatus: 'Completed', collected: false, orderDate: '2025-01-02', completionDate: '-' },
+    { id: 103, material: 'Aluminum', quantity: 50, pricePerUnit: 60, supplier: 'LMN Co.', status: 'Completed', paymentStatus: 'Completed', collected: true, orderDate: '2025-01-01', completionDate: '2025-01-06' },
   ];
 
   const [orders, setOrders] = useState(mockOrders);
@@ -91,6 +91,8 @@ const ManufacturerProcurementOrdersPage = () => {
               <th>Order ID</th>
               <th>Material</th>
               <th>Quantity</th>
+              <th>Price per Unit</th>
+              <th>Total Price</th>
               <th>Supplier</th>
               <th>Status</th>
               <th>Payment Status</th>
@@ -112,6 +114,8 @@ const ManufacturerProcurementOrdersPage = () => {
                   <td>{order.id}</td>
                   <td>{order.material}</td>
                   <td>{order.quantity}</td>
+                  <td>${order.pricePerUnit}</td>
+                  <td>${order.quantity * order.pricePerUnit}</td>
                   <td>{order.supplier}</td>
                   <td>
                     <span className={`status ${order.status.toLowerCase().replace(' ', '-')}`}>
@@ -151,6 +155,8 @@ const ManufacturerProcurementOrdersPage = () => {
             <h3>Order Details (ID: {selectedOrder.id})</h3>
             <p><strong>Material:</strong> {selectedOrder.material}</p>
             <p><strong>Quantity:</strong> {selectedOrder.quantity}</p>
+            <p><strong>Price per Unit:</strong> ${selectedOrder.pricePerUnit}</p>
+            <p><strong>Total Price:</strong> ${selectedOrder.quantity * selectedOrder.pricePerUnit}</p>
             <p><strong>Supplier:</strong> {selectedOrder.supplier}</p>
             <p><strong>Status:</strong> {selectedOrder.status}</p>
             <p><strong>Payment Status:</strong> {selectedOrder.paymentStatus}</p>

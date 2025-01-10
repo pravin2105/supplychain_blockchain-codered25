@@ -1,64 +1,78 @@
-// ManufacturerPlaceOrderPage.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ManufacturerPlaceOrderPage.css';
 import { FaShoppingCart } from 'react-icons/fa';
 
-const mockProducts = [
-  { id: 1, name: 'Steel', price: 100, image: 'steel.jpg', stock: 50 },
-  { id: 2, name: 'Copper', price: 75, image: 'copper.jpg', stock: 30 },
-  { id: 3, name: 'Aluminum', price: 120, image: 'aluminum.jpg', stock: 20 },
-  { id: 4, name: 'Plastic', price: 50, image: 'plastic.jpg', stock: 100 },
-];
-
 const ManufacturerPlaceOrderPage = () => {
+  const [materials, setMaterials] = useState([]);
   const [cart, setCart] = useState([]);
   const [quantityPopup, setQuantityPopup] = useState({ show: false, product: null });
   const [cartSliderOpen, setCartSliderOpen] = useState(false);
   const [quantityInput, setQuantityInput] = useState(1);
 
-  // Handle Add to Cart
+  useEffect(() => {
+    fetchMaterials();
+  }, []);
+
+  const fetchMaterials = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/materials');
+      const data = await response.json();
+      setMaterials(data);
+    } catch (error) {
+      console.error('Error fetching materials:', error);
+    }
+  };
+
   const handleAddToCart = (product) => {
     setQuantityPopup({ show: true, product });
   };
 
-  // Confirm Quantity and Add to Cart
   const confirmQuantity = () => {
-    if (quantityInput <= 0 || quantityInput > quantityPopup.product.stock) {
-      alert(`Please enter a valid quantity (1-${quantityPopup.product.stock})`);
+    if (quantityInput <= 0 || quantityInput > quantityPopup.product.quantity) {
+      alert(`Please enter a valid quantity (1-${quantityPopup.product.quantity})`);
       return;
     }
     const existingItem = cart.find((item) => item.id === quantityPopup.product.id);
     if (existingItem) {
-      // Update quantity if already in cart
       setCart(
         cart.map((item) =>
           item.id === quantityPopup.product.id ? { ...item, quantity: item.quantity + quantityInput } : item
         )
       );
     } else {
-      // Add new item to cart
       setCart([...cart, { ...quantityPopup.product, quantity: quantityInput }]);
     }
     setQuantityPopup({ show: false, product: null });
     setQuantityInput(1);
   };
 
-  // Remove Item from Cart
-  const handleRemoveFromCart = (productId) => {
-    setCart(cart.filter((item) => item.id !== productId));
-  };
-
-  // Change Quantity in Cart
-  const handleChangeQuantity = (productId, newQuantity) => {
-    if (newQuantity <= 0) return;
-    setCart(
-      cart.map((item) => (item.id === productId ? { ...item, quantity: newQuantity } : item))
-    );
+  const handlePlaceOrder = async () => {
+    try {
+      for (const item of cart) {
+        const order = {
+          material_id: item.id,
+          material_name: item.name,
+          quantity: item.quantity,
+          total_price: item.quantity * item.price,
+        };
+        await fetch('http://localhost:5000/orders', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(order),
+        });
+      }
+      alert('Order placed successfully');
+      setCart([]);
+    } catch (error) {
+      console.error('Error placing order:', error);
+      alert('Failed to place order');
+    }
   };
 
   return (
     <div className="place-order-page">
-      {/* Header with Cart Icon */}
       <header className="page-header">
         <h1>Place New Order</h1>
         <div className="cart-icon" onClick={() => setCartSliderOpen(true)}>
@@ -67,20 +81,18 @@ const ManufacturerPlaceOrderPage = () => {
         </div>
       </header>
 
-      {/* Product Grid */}
       <div className="product-list grid">
-        {mockProducts.map((product) => (
+        {materials.map((product) => (
           <div key={product.id} className="product-card">
-            <img src={product.image} alt={product.name} />
+            <img src={product.image || 'placeholder.jpg'} alt={product.name} />
             <h3>{product.name}</h3>
             <p>Price: ${product.price}</p>
-            <p>Stock: {product.stock}</p>
+            <p>Stock: {product.quantity}</p>
             <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
           </div>
         ))}
       </div>
 
-      {/* Quantity Popup */}
       {quantityPopup.show && (
         <div className="quantity-popup">
           <div className="popup-content">
@@ -88,7 +100,7 @@ const ManufacturerPlaceOrderPage = () => {
             <input
               type="number"
               min="1"
-              max={quantityPopup.product.stock}
+              max={quantityPopup.product.quantity}
               value={quantityInput}
               onChange={(e) => setQuantityInput(parseInt(e.target.value) || 1)}
             />
@@ -98,7 +110,6 @@ const ManufacturerPlaceOrderPage = () => {
         </div>
       )}
 
-      {/* Cart Slider */}
       {cartSliderOpen && (
         <div className="cart-slider">
           <div className="slider-content">
@@ -120,7 +131,7 @@ const ManufacturerPlaceOrderPage = () => {
               )}
             </div>
             <div className="cart-actions">
-              <button className="proceed-button">Proceed to Pay</button>
+              <button className="proceed-button" onClick={handlePlaceOrder}>Place Order</button>
               <button className="close-button" onClick={() => setCartSliderOpen(false)}>Close</button>
             </div>
           </div>

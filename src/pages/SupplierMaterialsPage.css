@@ -36,11 +36,10 @@
 }
 
 /* Button styles */
-.edit-button,
 .delete-button {
   padding: 8px 16px;
-  width: 80px; /* Fixed width for consistent size */
-  background-color: #007bff;
+  width: 80px;
+  background-color: #dc3545;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -50,49 +49,8 @@
   transition: background-color 0.3s;
 }
 
-.edit-button:hover {
-  background-color: #0056b3;
-}
-
-.delete-button {
-  background-color: #dc3545;
-}
-
 .delete-button:hover {
   background-color: #c82333;
-}
-
-/* Image styles */
-.material-image {
-  width: 60px;
-  height: 45px;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-/* Form styles */
-.add-material-form h3 {
-  margin-bottom: 10px;
-  font-size: 1.5rem;
-}
-
-.add-material-form .form-group {
-  margin-bottom: 15px;
-}
-
-.add-material-form label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.add-material-form input,
-.add-material-form textarea {
-  width: 100%;
-  padding: 8px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
 }
 
 .add-button {
@@ -108,4 +66,65 @@
 
 .add-button:hover {
   background-color: #218838;
+}
+
+/* Image styles */
+.material-image {
+  width: 60px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* Form popup styles */
+.form-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+.form-popup-content h3 {
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.cancel-button {
+  padding: 10px 20px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background-color 0.3s;
+}
+
+.cancel-button:hover {
+  background-color: #c82333;
 }

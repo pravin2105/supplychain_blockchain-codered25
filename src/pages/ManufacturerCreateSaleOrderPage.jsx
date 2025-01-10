@@ -2,20 +2,41 @@ import React, { useState } from 'react';
 import './ManufacturerCreateSaleOrderPage.css';
 
 const ManufacturerCreateSaleOrderPage = () => {
-  const [view, setView] = useState('orderRequests'); // Track current view
+  const [view, setView] = useState('availableProducts'); // Default view set to Available Products
   const [availableProducts, setAvailableProducts] = useState([
-    { id: 1, name: 'Steel Rods', quantity: 100, price: 50, date: '2025-01-05', description: 'High-quality steel rods', image: 'steel.jpg' },
-    { id: 2, name: 'Copper Sheets', quantity: 75, price: 70, date: '2025-01-02', description: 'Pure copper sheets', image: 'copper.jpg' },
+    { id: 1, name: 'Steel Rods', quantity: 100, price: 50, date: '2025-01-05', description: 'High-quality steel rods' },
+    { id: 2, name: 'Copper Sheets', quantity: 75, price: 70, date: '2025-01-02', description: 'Pure copper sheets' },
   ]);
+
   const [warehouseProducts, setWarehouseProducts] = useState([
     { id: 1, name: 'Steel Rods', quantity: 500, date: '2025-01-01' },
     { id: 2, name: 'Copper Sheets', quantity: 300, date: '2025-01-02' },
   ]);
 
+  const [orderRequests, setOrderRequests] = useState([
+    { id: 301, product: 'Steel Rods', quantity: 20, customer: 'XYZ Industries', date: '2025-01-08', status: 'Pending' },
+    { id: 302, product: 'Copper Sheets', quantity: 10, customer: 'ABC Supplies', date: '2025-01-07', status: 'Pending' },
+  ]);
+
+  const handleAcceptOrder = (orderId) => {
+    const updatedRequests = orderRequests.map((request) =>
+      request.id === orderId ? { ...request, status: 'Accepted' } : request
+    );
+    setOrderRequests(updatedRequests);
+    alert('Order accepted successfully!');
+  };
+
+  const handleRejectOrder = (orderId) => {
+    const updatedRequests = orderRequests.map((request) =>
+      request.id === orderId ? { ...request, status: 'Rejected' } : request
+    );
+    setOrderRequests(updatedRequests);
+    alert('Order rejected successfully!');
+  };
+
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantityToAdd, setQuantityToAdd] = useState('');
 
-  // Handle adding products from warehouse to availability list
   const handleAddToAvailability = (product) => {
     setSelectedProduct(product);
   };
@@ -67,7 +88,6 @@ const ManufacturerCreateSaleOrderPage = () => {
                 <th>Price per Unit</th>
                 <th>Date of Manufacture</th>
                 <th>Description</th>
-                <th>Image</th>
               </tr>
             </thead>
             <tbody>
@@ -78,7 +98,6 @@ const ManufacturerCreateSaleOrderPage = () => {
                   <td>${product.price}</td>
                   <td>{product.date}</td>
                   <td>{product.description}</td>
-                  <td><img src={product.image} alt={product.name} /></td>
                 </tr>
               ))}
             </tbody>
@@ -129,11 +148,43 @@ const ManufacturerCreateSaleOrderPage = () => {
         </div>
       )}
 
-      {/* Order Requests Section (Placeholder) */}
+      {/* Order Requests Section */}
       {view === 'orderRequests' && (
         <div className="order-requests-section">
           <h3>Order Requests</h3>
-          <p>This section will display order requests from middlemen.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Customer</th>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orderRequests.map((request) => (
+                <tr key={request.id}>
+                  <td>{request.id}</td>
+                  <td>{request.product}</td>
+                  <td>{request.quantity}</td>
+                  <td>{request.customer}</td>
+                  <td>{request.date}</td>
+                  <td>{request.status}</td>
+                  <td>
+                    {request.status === 'Pending' && (
+                      <div className="action-buttons">
+                        <button onClick={() => handleAcceptOrder(request.id)} className="accept-button">Accept</button>
+                        <button onClick={() => handleRejectOrder(request.id)} className="reject-button">Reject</button>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>

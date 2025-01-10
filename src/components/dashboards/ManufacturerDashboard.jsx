@@ -41,12 +41,6 @@ const ManufacturerDashboard = () => {
               <Link to="/manufacturer/track-orders">Track Orders</Link>
             </li>
             <li>
-              <Link to="/manufacturer/analytics">Analytics</Link>
-            </li>
-            <li>
-              <Link to="/manufacturer/notifications">Notifications</Link>
-            </li>
-            <li>
               <Link to="/manufacturer/profile">Profile</Link>
             </li>
           </ul>
